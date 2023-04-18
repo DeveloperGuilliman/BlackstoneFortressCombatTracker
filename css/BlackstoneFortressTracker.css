@@ -1,0 +1,400 @@
+@charset "UTF-8";
+
+body {
+	user-select: none;
+}
+
+.extra-card {
+  left: 2px;
+  bottom: calc(100% - 10px);
+  z-index: 3;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.card-orderable .card.playable-card h5 {
+	font-size: 0.65rem;
+}
+
+.card-orderable .card.playable-card h6 {
+	font-size: 0.5rem;
+}
+
+.card.playable-card .card-body  {
+	padding: calc(var(--bs-card-spacer-y)*.25) calc(var(--bs-card-spacer-x)*.0625);
+}
+
+@media ( min-width : 576px) {
+	.card-orderable .card.playable-card h5 {
+		font-size: 0.875rem;
+	}
+	
+	.card-orderable .card.playable-card h6 {
+		font-size: 0.75rem;
+	}
+	
+	.card.playable-card .card-body {
+		padding: calc(var(--bs-card-spacer-y)*.50) calc(var(--bs-card-spacer-x)*.125);
+	}
+}
+
+@media ( min-width : 768px) {
+	.card-orderable .card.playable-card h5 {
+		font-size: 1rem;
+	}
+	
+	.card-orderable .card.playable-card h6 {
+		font-size: 0.875rem;
+	}
+	
+	.card.playable-card .card-body {
+		padding: calc(var(--bs-card-spacer-y)*.66) calc(var(--bs-card-spacer-x)*.166);
+	}
+
+	.extra-card {
+  		bottom: calc(100% - 15px);
+	}
+	
+}
+
+@media ( min-width : 992px) {
+	.card-orderable .card.playable-card h5 {
+		font-size: 1.25rem;
+	}
+	
+	.card-orderable .card.playable-card h6 {
+		font-size: 1rem;
+	}
+	
+	.card.playable-card .card-body {
+		padding: var(--bs-card-spacer-y) calc(var(--bs-card-spacer-x)*.25);
+	}
+	
+}
+
+.card {
+	border-width: 2px;
+  --bs-card-spacer-y: 0.5rem;
+}
+
+.card-skull  {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	font-size: x-large;
+	text-shadow: black 0px 0px 2px;
+}
+
+.card-orderable {
+	height: 100%;
+}
+
+.card-group-indicator {
+	position: absolute;
+}
+
+.card-orderable .card-group-indicator {
+	right: 2px;
+	top: 2px;
+	border-radius: 50%;
+	border: 1px black solid;
+	background-color: white;
+	width: 1.5rem;
+	height: 1.5rem;
+	text-align: center;
+	line-height: 1.5rem;
+	font-size: 1.5rem;
+}
+
+.card-slot-populated-8 {
+	width: 12.5%;
+}
+
+.card-slot-populated-7 {
+	width: 14.28%;
+}
+
+.card-slot-populated-6 {
+	width: 16.66%;
+}
+
+.card-slot-populated-5 {
+	width: 20%;
+}
+
+.card-over .card {
+	border-color: blue;
+}
+
+.card-selected .card {
+	border-color: black;
+	filter: brightness(0.7);
+}
+
+.card-deactivated {
+	filter: brightness(0.7);
+}
+
+.card-done {
+	filter: brightness(0.33) grayscale(1);
+	text-decoration: line-through;
+	text-decoration-thickness: 3px;
+}
+
+.card-actual.playable-card {
+	z-index: 4;
+}
+
+.playable-card {
+	z-index: 6;
+}
+
+.explorer-card {
+	background-color: rgba(240, 240, 255, 1);
+	border-color: rgba(224, 224, 255, 0.5);
+}
+
+.hostile-card {
+	background-color: rgba(255, 240, 240 , 1);
+	border-color: rgba(255, 240, 240, 0.5);
+}
+
+.card-over .card.explorer-card, .card.explorer-card.card-actual {
+	border-color: rgba(128, 128, 255, 0.875);
+}
+
+.card-over .card.hostile-card, .card.hostile-card.card-actual {
+	border-color: rgba(255, 128, 128, 0.875);
+}
+
+#dice_roll {
+	color: white;
+	font-weight: bold;
+	font-size: 2rem;
+	text-align: center;
+	margin: auto;
+	min-width: 1.8em;
+	width: 0%;
+	flex: inherit;
+	position: relative;
+}
+
+#dice_roll>#dice_roll_value {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-style: hidden;
+  width: 100%;
+  text-align: center;
+}
+
+table td, table th {
+  border: 1px solid black;
+}
+
+table.roll-table td:nth-child(1) {
+	white-space: nowrap;
+}
+
+th[data-bs-toggle="popover"], td[data-bs-toggle="popover"] {
+	cursor: pointer
+}
+
+.navbar {
+	padding: 0 var(--bs-navbar-padding-x);
+	background-color: #20171A !important;
+}
+
+nav.navbar a, nav.navbar a.nav-link, nav.navbar a.nav-link.active {
+	color: white;
+}
+
+nav.navbar a.navbar-brand, nav.navbar a.navbar-brand:hover {
+	color: white;
+	font-weight: bold;
+}
+
+.navbar button.navbar-toggler {
+	margin-top: 4px;
+	color: white;
+}
+
+span.specialSquareDiceD6:before {
+	content: "■";
+	text-shadow: black 0px 0px 1px;
+	font-size: 1.2rem;
+	color: #DEE3E9;
+}
+
+span.specialSquareDiceD8:before {
+	content: "▲";
+	text-shadow: black 0px 0px 1px;
+	font-size: 1.2rem;
+	color: #A89DC8;
+}
+
+span.specialSquareDiceD12:before {
+	content: "⬟";
+	text-shadow: black 0px 0px 1px;
+	font-size: 1.2rem;
+	color: #9EC0D5;
+}
+
+.card-actual:after {
+	content: '';
+	position: absolute;
+	width: 100px;
+	height: 100%;
+	background-image: linear-gradient(120deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .8), rgba(255, 255, 255, 0) 70%);
+	top: 0;
+	left: -100px;
+	animation: shine 8s infinite linear;
+}
+
+div.topBackground {
+	background-image: url(../img/background.png);
+	background-repeat: repeat-x;
+	position: absolute;
+	width: 100%;
+	height: 176px;
+	z-index: -1;
+}
+
+#page_main>div  {
+	background-image: url(../img/background_top.png);
+	background-repeat: repeat-x;
+	background-position: top;
+}
+
+#page_main  {
+	background-image: url(../img/background_bottom.png);
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+
+.select-anim {
+	animation: grow 0.2s;
+}
+
+.non-selected-anim {
+	animation: shake 0.25s linear;
+}
+
+.draw-card-anim-1 {
+	animation: draw-card 0.15s;
+}
+
+.draw-card-anim-2 {
+	animation: draw-card 0.2s;
+}
+
+.draw-card-anim-3 {
+	animation: draw-card 0.25s;
+}
+
+.draw-card-anim-4 {
+	animation: draw-card 0.3s;
+}
+
+.draw-card-anim-5 {
+	animation: draw-card 0.35s;
+}
+
+.draw-card-anim-6 {
+	animation: draw-card 0.4s;
+}
+
+.draw-card-anim-7 {
+	animation: draw-card 0.45s;
+}
+
+.draw-card-anim-8 {
+	animation: draw-card 0.5s;
+}
+
+.collect-card-anim-1 {
+	animation: draw-card 0.5s;
+	animation-direction: reverse;
+	animation-fill-mode: forwards
+}
+
+.collect-card-anim-2 {
+	animation: draw-card 0.45s;
+	animation-direction: reverse;
+	animation-fill-mode: forwards
+}
+
+.collect-card-anim-3 {
+	animation: draw-card 0.4s;
+	animation-direction: reverse;
+	animation-fill-mode: forwards
+}
+
+.collect-card-anim-4 {
+	animation: draw-card 0.35s;
+	animation-direction: reverse;
+	animation-fill-mode: forwards
+}
+
+.collect-card-anim-5 {
+	animation: draw-card 0.3s;
+	animation-direction: reverse;
+	animation-fill-mode: forwards
+}
+
+.collect-card-anim-6 {
+	animation: draw-card 0.25s;
+	animation-direction: reverse;
+	animation-fill-mode: forwards
+}
+
+.collect-card-anim-7 {
+	animation: draw-card 0.2s;
+	animation-direction: reverse;
+	animation-fill-mode: forwards
+}
+
+.collect-card-anim-8 {
+	animation: draw-card 0.15s;
+	animation-direction: reverse;
+	animation-fill-mode: forwards
+}
+
+
+@keyframes shine {
+	0% {left: -1000000%}
+	95% {left: -100%}
+	100% {left: 100px}
+}
+
+@keyframes grow {
+	0% {scale: 0.875}
+	100% {scale: 1}
+}
+
+@keyframes shake {
+	0% {left: 0px}
+	12.5% {left: 10%}
+	37.5% {left: -10%}
+	67.5% {left: 10%}
+	87.5% {left: -10%}
+	100% {left: 0px}
+	
+}
+
+@keyframes draw-card {
+	0% {transform: translateX(-1000%);}
+	100% {transform: translateX(0);}
+}
+
+@keyframes collect-card {
+	0% {transform: translateX(0);}
+	100% {transform: translateX(-1000%);}
+}

@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no;user-scalable=0;" />
+<title>Blackstone Fortress Combat Tracker</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/BlackstoneFortressTracker.css" rel="stylesheet">
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/BlackstoneFortressTracker.js" defer="defer"></script>
+</head>
+<body class="vh-100 d-flex flex-column">
+	<div id="page_header">
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">BLACKSTONE FORTRESS COMBAT TRACKER</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-lg-0">
+						<li id="menu_new_game" class="nav-item"><a class="nav-link active" aria-current="page" href="#">New game</a></li>
+						<!--
+						<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false"> Dropdown </a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="#">Action</a></li>
+								<li><a class="dropdown-item" href="#">Another action</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="#">Something else
+										here</a></li>
+							</ul></li>
+						<li class="nav-item"><a class="nav-link disabled">Disabled</a>
+						</li>
+						  -->
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+
+	<div id="page_main" class="flex-fill d-flex flex-column">
+		<div class="flex-fill">
+		<div id="create_game" class="container" style="display: none !important;">
+
+			<div class="d-grid gap-2 mt-4">
+				<button id="createExplorersButton" class="btn btn-info" type="button">Select explorers (2-4)
+					&#9744;&#9744;&#9744;&#9744;</button>
+				<button id="createHostiles1Button" class="btn btn-info" type="button">Select group 1 hostiles (1-2)
+					&#9744;&#9744;</button>
+				<button id="createHostiles2Button" class="btn btn-info" type="button">Select group 2 hostiles (0-2)
+					&#9744;&#9744;</button>
+				<button id="createHostiles3Button" class="btn btn-info" type="button">Select group 3 hostiles (0-2)
+					&#9744;&#9744;</button>
+				<button id="createHostiles4Button" class="btn btn-info" type="button">Select group 4 hostiles (0-2)
+					&#9744;&#9744;</button>
+				<button id="startGame" class="btn btn-primary" type="button" disabled="disabled">Start game</button>
+			</div>
+
+		</div>
+
+		<div id="select_explorers" class="container mt-2" style="display: none !important;">
+
+			<div id="select_explorers_cards" class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 mb-2 text-center"></div>
+
+			<div class="d-grid gap-2 mb-2">
+				<button class="btn btn-secondary goBackButton" type="button">Cancel</button>
+				<button id="saveExplorersButton" class="btn btn-primary" type="button" disabled="disabled">Save</button>
+			</div>
+
+		</div>
+
+		<div id="select_hostiles" class="container mt-2" style="display: none !important;">
+
+			<div id="select_hostiles_cards" class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 mb-2 text-center"></div>
+
+			<div class="d-grid gap-2 mb-2">
+				<button class="btn btn-secondary goBackButton" type="button">Cancel</button>
+				<button id="saveHostilesButton" class="btn btn-primary" type="button" disabled="disabled">Save</button>
+			</div>
+		</div>
+
+		<div id="tracking" class="d-flex flex-column flex-fill h-100" style="display: none !important;">
+
+			<div class="container-fluid container-lg mb-1">
+				<div id="tracking_order" class="row mt-1 mb-2"></div>
+			</div>
+
+			<div class="container-fluid container-md mb-3">
+				<div class="row mt-2">
+					<div id="dice_roll" class="col w-auto mt-0 gx-1">
+						<img src="img/d20.svg">
+						<div id="dice_roll_value"></div>
+					</div>
+					<div id="table_result_row" class="col w-100 mt-2"></div>
+				</div>
+			</div>
+
+			<div class="flex-fill"></div>
+
+			<div id="tracking_buttons" class="container-fluid container-md ">
+				<div id="tracking_common_buttons" class="row row-cols-2 row-cols-sm-4 mb-2 g-1 justify-content-between">
+					<div class="col order-2 order-sm-0">
+						<button id="backTrackingButton" class="btn btn-primary w-100 px-0" type="button">Back</button>
+					</div>
+					<div class="col order-0 order-sm-1">
+						<button id="reinforcementsButton" class="btn btn-info w-100 px-0" type="button">Reinforcement&nbsp;Roll</button>
+					</div>
+					<div class="col order-1 order-sm-2">
+						<button id="actionButton" class="btn btn-info w-100" type="button">Action&nbsp;Roll</button>
+					</div>
+					<div class="col col-12 order-1 order-sm-2">
+						<button id="inspirationButton" class="btn btn-info w-100 px-0" type="button">Inspiration&nbsp;Roll</button>
+					</div>
+					<div class="col order-3">
+						<button id="nextTrackingButton" class="btn btn-primary w-100 px-0" type="button">Next</button>
+					</div>
+				</div>
+			</div>
+		</div></div>
+
+	</div>
+	<div id="hidden-data" style="display: none !important;">
+		<div id="explorers-cards">
+			<div id="janus_draik-card">
+				<div data-reference="janus_draik" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/janus_draik.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Janus Draik</h5>
+						<h6 class="card-subtitle text-body-secondary">Rogue Trader</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="espern_locarno-card">
+				<div data-reference="espern_locarno" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/espern_locarno.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Espern Locarno</h5>
+						<h6 class="card-subtitle text-body-secondary">Imperial navigator</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="taddeus_the_purifier-card">
+				<div data-reference="taddeus_the_purifier" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/taddeus_the_purifier.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Taddeus the Purifier</h5>
+						<h6 class="card-subtitle text-body-secondary">Ministorum Priest</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="pious_vorne-card">
+				<div data-reference="pious_vorne" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/pious_vorne.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Pious Vorne</h5>
+						<h6 class="card-subtitle text-body-secondary">Missionary Zealot</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="amallyn_shadowguide-card">
+				<div data-reference="amallyn_shadowguide" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/amallyn_shadowguide.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Amallyn Shadowguide</h5>
+						<h6 class="card-subtitle text-body-secondary">Asuryani Ranger</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="dahyak_grekh-card">
+				<div data-reference="dahyak_grekh" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/dahyak_grekh.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Dahyak Grekh</h5>
+						<h6 class="card-subtitle text-body-secondary">Kroot Tracker</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="ur025-card">
+				<div data-reference="ur025" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/ur-025.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">UR-025</h5>
+						<h6 class="card-subtitle text-body-secondary">Imperial Robot</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="rein_raus-card">
+				<div data-reference="rein_raus" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/rein_raus.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Rein &amp; Raus</h5>
+						<h6 class="card-subtitle text-body-secondary">Ratling Twins</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="neyam_shai_murad-card">
+				<div data-reference="neyam_shai_murad" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/neyam_shai_murad.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Neyam Shai Murad</h5>
+						<h6 class="card-subtitle text-body-secondary">Rogue Trader</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="aradia_madellan-card">
+				<div data-reference="aradia_madellan" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/aradia_madellan.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Aradia Madellan</h5>
+						<h6 class="card-subtitle text-body-secondary">Primaris Psyker</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="daedalosus-card">
+				<div data-reference="daedalosus" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/daedalosus.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Daedalosus</h5>
+						<h6 class="card-subtitle text-body-secondary">Technoarcheologist</h6>
+					</div>
+				</div>
+			</div>
+
+			<div id="gotfret_de_montbard-card">
+				<div data-reference="gotfret_de_montbard" class="card explorer-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/explorers/gotfret_de_montbard.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Gotfret De Montbard</h5>
+						<h6 class="card-subtitle text-body-secondary">Crusader</h6>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div id="hostiles-cards">
+
+			<div id="spindle_drones-card">
+				<div data-reference="spindle_drones" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/spindle_drone.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Spindle Drones</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="traitor_guardsmen-card">
+				<div data-reference="traitor_guardsmen" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/traitor_guard.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Traitor Guardsmen</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="negavolt_cultists-card">
+				<div data-reference="negavolt_cultists" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/negavolt_cultist.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Negavolt Cultists</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="ur_ghuls-card">
+				<div data-reference="ur_ghuls" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/ur-ghul.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Ur-Ghuls</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="chaos_beastmen-card">
+				<div data-reference="chaos_beastmen" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/chaos_beastman.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Chaos Beastmen</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="rogue_psykers-card">
+				<div data-reference="rogue_psykers" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/rogue_psyker.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Rogue Psykers</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="chaos_space_marines-card">
+				<div data-reference="chaos_space_marines" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/chaos_space_marine.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Chaos Space Marines</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="obsidius_mallex-card">
+				<div data-reference="obsidius_mallex" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/obsidius_mallex.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Obsidius Mallex</h5>
+						<h6 class="card-subtitle text-body-secondary">Chaos Lord</h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="borewyrm-card">
+				<div data-reference="borewyrm" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/borewyrm.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Borewyrm Infestation</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="ambull-card">
+				<div data-reference="ambull" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/ambull.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Ambull</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="ambull_enraged-card">
+				<div data-reference="ambull_enraged" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/ambull.png" class="card-img-top" draggable="false">
+					<div class="card-skull">&#x1f480;</div>
+					<div class="card-body">
+						<h5 class="card-title">Ambull Enraged</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="traitor_commissar-card">
+				<div data-reference="traitor_commissar" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/traitor_commissar.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Traitor Commissar</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="chaos_ogryn-card">
+				<div data-reference="chaos_ogryn" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/chaos_ogryn.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Chaos Ogryn</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="cultists-card">
+				<div data-reference="cultists" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/cultist.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Cultists</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="cultist_firebrand-card">
+				<div data-reference="cultist_firebrand" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/cultist_firebrand.png" class="card-img-top" draggable="false">
+					<div class="card-body">
+						<h5 class="card-title">Cultist Firebrand</h5>
+						<h6 class="card-subtitle text-body-secondary"></h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+			<div id="obsidius_mallex_empowered-card">
+				<div data-reference="obsidius_mallex_empowered" class="card hostile-card playable-card rounded-3 shadow-sm h-100">
+					<img src="img/hostiles/obsidius_mallex.png" class="card-img-top" draggable="false">
+					<div class="card-skull">&#x1f480;</div>
+					<div class="card-body">
+						<h5 class="card-title">Obsidius Mallex</h5>
+						<h6 class="card-subtitle text-body-secondary">Chaos Lord Empowered</h6>
+					</div>
+					<span class="card-group-indicator"></span>
+				</div>
+			</div>
+
+		</div>
+		<div id="hostiles-actions-tables">
+
+			<div id="spindle_drones-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">In&nbsp;Cover</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Sneak</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Sneak</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Sneak</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+						</tr>
+						<tr data-rolls=";16;17;18;19;">
+							<td>16-19</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td data-bs-content="##">Alert</td>
+							<td data-bs-content="##">Alert</td>
+							<td data-bs-content="##">Alert</td>
+							<td data-bs-content="##">Alert</td>
+							<td data-bs-content="##">Alert</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="traitor_guardsmen-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="#In_Cover_Traitor_Guardsmen">In&nbsp;Cover</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Sneak</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+						</tr>
+						<tr data-rolls=";16;17;18;19;">
+							<td>16-19</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Rush</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="negavolt_cultists-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Recharge</td>
+							<td data-bs-content="##">Recharge</td>
+							<td data-bs-content="##">Recharge</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";16;17;18;19;">
+							<td>16-19</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Rush</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="ur_ghuls-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Sneak</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Sneak</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Rush</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Rush</td>
+						</tr>
+						<tr data-rolls=";16;17;18;19;">
+							<td>16-19</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Rush</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Pounce</td>
+							<td data-bs-content="##">Pounce</td>
+							<td data-bs-content="##">Rush</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="chaos_beastmen-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";16;17;18;19;">
+							<td>16-19</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Rush</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="rogue_psykers-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Disrupt</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Disrupt</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Disrupt</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Disrupt</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+						</tr>
+						<tr data-rolls=";16;17;18;19;">
+							<td>16-19</td>
+							<td data-bs-content="##">Regenerate</td>
+							<td data-bs-content="##">Annihilate</td>
+							<td data-bs-content="##">Regenerate</td>
+							<td data-bs-content="##">Onslaught</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td data-bs-content="##">Empower</td>
+							<td data-bs-content="##">Annihilate</td>
+							<td data-bs-content="##">Empower</td>
+							<td data-bs-content="##">Empower</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="chaos_space_marines-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">In&nbsp;Cover</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Sneak</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";16;17;18;19;">
+							<td>16-19</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Rapid&nbsp;Fire</td>
+							<td data-bs-content="##">Rapid&nbsp;Fire</td>
+							<td data-bs-content="##">Rapid&nbsp;Fire</td>
+							<td data-bs-content="##">Rapid&nbsp;Fire</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Rapid&nbsp;Fire</td>
+							<td data-bs-content="##">Rapid&nbsp;Fire</td>
+							<td data-bs-content="##">Rapid&nbsp;Fire</td>
+							<td data-bs-content="##">Rapid&nbsp;Fire</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="obsidius_mallex-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">In&nbsp;Cover</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Sneak</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+						</tr>
+						<tr data-rolls=";16;17;18;19;">
+							<td>16-19</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Overcharge</td>
+							<td data-bs-content="##">Overcharge</td>
+							<td data-bs-content="##">Overcharge</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Overcharge</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Rush</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="borewyrm-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">In&nbsp;Cover</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Tunnel</td>
+							<td data-bs-content="##">Tunnel</td>
+							<td data-bs-content="##">Tunnel</td>
+							<td data-bs-content="##">Tunnel</td>
+							<td data-bs-content="##">Tunnel</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Sneak</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Sneak</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";16;17;">
+							<td>16-17</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Consume</td>
+						</tr>
+						<tr data-rolls=";18;19;20;">
+							<td>18-20</td>
+							<td data-bs-content="##">Consume</td>
+							<td data-bs-content="##">Consume</td>
+							<td data-bs-content="##">Consume</td>
+							<td data-bs-content="##">Consume</td>
+							<td data-bs-content="##">Consume</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="ambull-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Protective</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Hold</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";16;17;">
+							<td>16-17</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";18;19;20;">
+							<td>18-20</td>
+							<td data-bs-content="##">Tunnel</td>
+							<td data-bs-content="##">Swipe</td>
+							<td data-bs-content="##">Tunnel</td>
+							<td data-bs-content="##">Tunnel</td>
+							<td data-bs-content="##">Tunnel</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="ambull_enraged-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Enraged</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Hold</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";16;17;">
+							<td>16-17</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";18;19;20;">
+							<td>18-20</td>
+							<td data-bs-content="##">Tunnel</td>
+							<td data-bs-content="##">Swipe</td>
+							<td data-bs-content="##">Tunnel</td>
+							<td data-bs-content="##">Tunnel</td>
+							<td data-bs-content="##">Tunnel</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="traitor_commissar-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">In&nbsp;Cover</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";16;17;">
+							<td>16-17</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";18;19;20;">
+							<td>18-20</td>
+							<td data-bs-content="##">Execute the weak</td>
+							<td data-bs-content="##">Execute the weak</td>
+							<td data-bs-content="##">Execute the weak</td>
+							<td data-bs-content="##">Execute the weak</td>
+							<td data-bs-content="##">Execute the weak</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="chaos_ogryn-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Bodyguard</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Hold</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Guard</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Guard</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Guard</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";16;17;18;19;">
+							<td>16-19</td>
+							<td data-bs-content="##">Guard</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td data-bs-content="##">Crush</td>
+							<td data-bs-content="##">Crush</td>
+							<td data-bs-content="##">Crush</td>
+							<td data-bs-content="##">Crush</td>
+							<td data-bs-content="##">Crush</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="cultists-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="#In_Cover_Cultist">In&nbsp;Cover</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+						</tr>
+						<tr data-rolls=";16;17;">
+							<td>16-17</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";18;19;20;">
+							<td>18-20</td>
+							<td data-bs-content="##">Overwhelm</td>
+							<td data-bs-content="##">Full-auto</td>
+							<td data-bs-content="##">Overwhelm</td>
+							<td data-bs-content="##">Overwhelm</td>
+							<td data-bs-content="##">Overwhelm</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="cultist_firebrand-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">In&nbsp;Cover</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Fall&nbsp;back</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Hold</td>
+							<td data-bs-content="##">Hold</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";16;17;">
+							<td>16-17</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";18;19;20;">
+							<td>18-20</td>
+							<td data-bs-content="##">Firestorm</td>
+							<td data-bs-content="##">All Shall Burn</td>
+							<td data-bs-content="##">Firestorm</td>
+							<td data-bs-content="##">All Shall Burn</td>
+							<td data-bs-content="##">Firestorm</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="obsidius_mallex_empowered-actions">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th data-bs-content="##">Hidden</th>
+							<th data-bs-content="##">Engaged</th>
+							<th data-bs-content="##">Close</th>
+							<th data-bs-content="##">In&nbsp;Cover</th>
+							<th data-bs-content="##">Other</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;2;3;">
+							<td>1-3</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Advance</td>
+						</tr>
+						<tr data-rolls=";7;8;9;">
+							<td>7-9</td>
+							<td data-bs-content="##">Advance</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Aim</td>
+							<td data-bs-content="##">Aim</td>
+						</tr>
+						<tr data-rolls=";10;11;12;">
+							<td>10-12</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";13;14;15;">
+							<td>13-15</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Charge</td>
+							<td data-bs-content="##">Onslaught</td>
+							<td data-bs-content="##">Charge</td>
+						</tr>
+						<tr data-rolls=";16;17;18;19;">
+							<td>16-19</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Overcharge</td>
+							<td data-bs-content="##">Overcharge</td>
+							<td data-bs-content="##">Rush</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Fury</td>
+							<td data-bs-content="##">Overcharge</td>
+							<td data-bs-content="##">Rush</td>
+							<td data-bs-content="##">Rush</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+		<div id="hostiles-reinforcements-tables">
+
+			<div id="small-reinforcements">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th>Small Reinforcements</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;">
+							<td>1</td>
+							<td>6</td>
+						</tr>
+						<tr data-rolls=";2;">
+							<td>2</td>
+							<td>4</td>
+						</tr>
+						<tr data-rolls=";3;">
+							<td>3</td>
+							<td>2</td>
+						</tr>
+						<tr data-rolls="">
+							<td>4+</td>
+							<td>None</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="large-reinforcements">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th>Large Reinforcements</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;">
+							<td>1</td>
+							<td>4</td>
+						</tr>
+						<tr data-rolls=";2;">
+							<td>2</td>
+							<td>2</td>
+						</tr>
+						<tr data-rolls=";3;">
+							<td>3</td>
+							<td>1</td>
+						</tr>
+						<tr data-rolls="">
+							<td>4+</td>
+							<td>None</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="huge-reinforcements">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th>Huge Reinforcements</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;">
+							<td>1</td>
+							<td>2</td>
+						</tr>
+						<tr data-rolls=";2;">
+							<td>2</td>
+							<td>1</td>
+						</tr>
+						<tr data-rolls="">
+							<td>3+</td>
+							<td>None</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+		<div id="other-tables">
+
+			<div id="event-table">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th>Event</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls=";1;">
+							<td>1</td>
+							<td><b>All Is Dust.</b> If any discovery markers are still on the battlefield the leader must discard one of
+								them. If there are no discovery markers, each explorer loses 1 inspiration point, to a minimum of 0.</td>
+						</tr>
+						<tr data-rolls=";2;3;">
+							<td>2-3</td>
+							<td><b>Unfulfilled Destiny.</b> Do not make a destiny roll at the start of the next turn.</td>
+						</tr>
+						<tr data-rolls=";4;5;6;">
+							<td>4-6</td>
+							<td><b>Not Dead Yet.</b> The leader must pick one hostile that was slain during the combat and has not
+								returned to the battlefield, and then deploy them as close to an explorer as possible.</td>
+						</tr>
+						<tr data-rolls=";7;8;9;10;">
+							<td>7-10</td>
+							<td><b>Changing Conditions.</b> Draw an encounter card. If the card has a twist, it applies for the rest of
+								the combat. If not, there is no effect.</td>
+						</tr>
+						<tr data-rolls=";11;12;13;14;">
+							<td>11-14</td>
+							<td><b>Escape Chamber.</b> The leader replaces the portal furthest from any explorers with a maglev
+								transport escape chamber. If more than one portal is equally far from the explorers, the leader can pick which
+								one to replace. If this event has already been rolled, or if an explorer has used a Summon action, there is no
+								effect.</td>
+						</tr>
+						<tr data-rolls=";15;16;17;">
+							<td>15-17</td>
+							<td><b>Inspiration.</b> The leader picks an explorer. That explorer receives 1 inspiration point.</td>
+						</tr>
+						<tr data-rolls=";18;19;">
+							<td>18-19</td>
+							<td><b>Heroic Effort.</b> The leader picks an explorer that is out of action. Deploy the explorer in the
+								same hex as another explorer or as close to another explorer as possible, and then make a vitality roll for
+								them. If no explorers are out of action, the leader picks an explorer. Make a vitality roll for that explorer.</td>
+						</tr>
+						<tr data-rolls=";20;">
+							<td>20</td>
+							<td><b>Lucky Find.</b> The leader picks an explorer That explorer draws a discovery card.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="inspiration-table">
+				<table class="roll-table">
+					<thead>
+						<tr>
+							<th>Cost</th>
+							<th>Inspiration</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls="">
+							<td>3</td>
+							<td>Flip explorer’s card to inspired side.</td>
+						</tr>
+						<tr data-rolls="">
+							<td>3</td>
+							<td>Take a Search (4+) action in a hex that does not have a discovery marker (the Search action still costs
+								a 4+ activation dice).</td>
+						</tr>
+						<tr data-rolls="">
+							<td>2</td>
+							<td>Attempt a gambit without spending an activation dice.</td>
+						</tr>
+						<tr data-rolls="">
+							<td>1</td>
+							<td>Re-roll an action dice.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="inspiration-roll-table">
+				<table>
+					<thead>
+						<tr>
+							<th>Roll</th>
+							<th>Result</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-rolls="">
+							<td>Less than or equal to the combined wounds values of the hostiles slain</td>
+							<td>Receive 1 inspiration point</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="action-dictionary-table">
+				<table>
+					<thead>
+						<tr>
+							<th>Term</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-key="#Hidden">
+							<td>Hidden</td>
+							<td>No line of sight to an explorer</td>
+						</tr>
+						<tr data-key="#Engaged">
+							<td>Engaged</td>
+							<td>Adjacent to a visible explorer</td>
+						</tr>
+						<tr data-key="#In_Cover">
+							<td>In Cover</td>
+							<td>In cover from all visible explorers</td>
+						</tr>
+						<tr data-key="#Close">
+							<td>Close</td>
+							<td>Range to the closest visible explorer is 2 or 3 hexes</td>
+						</tr>
+						<tr data-key="#Other">
+							<td>Other</td>
+							<td>Any other situation</td>
+						</tr>
+						<tr data-key="#In_Cover_Traitor_Guardsmen">
+							<td>In Cover</td>
+							<td>Armed with Lasgun and in cover from all visible explorers</td>
+						</tr>
+						<tr data-key="#Protective">
+							<td>Protective</td>
+							<td>An explorer is adjacent to 1 or more Borewyrm Infestations</td>
+						</tr>
+						<tr data-key="#Enraged">
+							<td>Enraged</td>
+							<td>An explorer is carrying 1 or more egg counters</td>
+						</tr>
+						<tr data-key="#Bodyguard">
+							<td>Bodyguard</td>
+							<td>No line of sight to an explorer, but line of sight to the Traitor Commissar</td>
+						</tr>
+						<tr data-key="#In_Cover_Cultist">
+							<td>In Cover</td>
+							<td>Armed with Autogun, Grenade launcher or Heavy Stubber and in cover from all visible explorers</td>
+						</tr>
+						<tr data-key="#Hold">
+							<td>Hold</td>
+							<td>Do nothing.</td>
+						</tr>
+						<tr data-key="#Fall_back">
+							<td>Fall back</td>
+							<td>Double this hostile’s MOVE; if they can make a move that ends in a hex not visible to any explorers,
+								they do so. Otherwise attack the closest explorer in range and visible.</td>
+						</tr>
+						<tr data-key="#Aim">
+							<td>Aim</td>
+							<td>Attack the furthest explorer that is in range and visible. The attack ignores cover.</td>
+						</tr>
+						<tr data-key="#Sneak">
+							<td>Sneak</td>
+							<td>Make a move that ends as close as possible to an explorer without entering a hex visible to any
+								explorers.</td>
+						</tr>
+						<tr data-key="#Onslaught">
+							<td>Onslaught</td>
+							<td>Attack the closest explorer in range and visible. Then attack the closest explorer in range and visible
+								(this may be a different target if the first target is taken out of action or another explorer is equally
+								close).</td>
+						</tr>
+						<tr data-key="#Charge">
+							<td>Charge</td>
+							<td>Move towards the closest explorer. Then attack an explorer that is adjacent and visible. If there are
+								none, move towards the closest explorer a second time.</td>
+						</tr>
+						<tr data-key="#Advance">
+							<td>Advance</td>
+							<td>Move towards the closest explorer. Then attack the closest explorer that is in range and visible.</td>
+						</tr>
+						<tr data-key="#Alert">
+							<td>Alert</td>
+							<td>Increase the threat level by 1 and then take an Onslaught action. If the threat level is 3, take an
+								Onslaught action and re-roll failed attack rolls for that action instead.</td>
+						</tr>
+						<tr data-key="#Rush">
+							<td>Rush</td>
+							<td>Move towards the closest explorer. Then take a Charge action.</td>
+						</tr>
+						<tr data-key="#Fury">
+							<td>Fury</td>
+							<td>Take an Onslaught action. Re-roll failed attack rolls for that action.</td>
+						</tr>
+						<tr data-key="#Recharge">
+							<td>Recharge</td>
+							<td>Remove a wound counter fromthe Negavolt Cultist. If the Negavolt Cultist does not have a wound counter,
+								treat this result as an Advance result instead.</td>
+						</tr>
+						<tr data-key="#Pounce">
+							<td>Pounce</td>
+							<td>If there is an explorer adjacent and visible to this Ur-Ghul, take an Onslaught action. Otherwise, take
+								a Charge action. Re-roll failed attack rolls for whichever action is taken.</td>
+						</tr>
+						<tr data-key="#Disrupt">
+							<td>Disrupt</td>
+							<td>One unspent activation or destiny dice chosen by the hostile player is discarded and cannot be spent
+								this turn. If no unspent activation or destiny dice are available, one explorer chosen by the hostile player
+								suffers a wound.</td>
+						</tr>
+						<tr data-key="#Regenerate">
+							<td>Regenerate</td>
+							<td>Remove a wound counter from the Rogue Psyker. If the Rogue Psyker does not have a wound counter, treat
+								this result as a Disrupt result instead.</td>
+						</tr>
+						<tr data-key="#Annihilate">
+							<td>Annihilate</td>
+							<td>Place the empowered marker beside the Rogue Psyker. Then attack an explorer that is adjacent and visible
+								to this hostile. Re-roll failed attack rolls for that attack. The Rogue Psyker remains empowered until they
+								suffer a wound or grievous wound.</td>
+						</tr>
+						<tr data-key="#Empower">
+							<td>Empower</td>
+							<td>Place the empowered marker beside the Rogue Psyker. If the Rogue Psyker is already empowered, treat this
+								result as a Disrupt instead. The Rogue Psyker remains empowered until they suffer a wound or grievous wound.</td>
+						</tr>
+						<tr data-key="#Rapid_Fire">
+							<td>Rapid Fire</td>
+							<td>Take an Onslaught action. Re-roll failed attack rolls for that action.</td>
+						</tr>
+						<tr data-key="#Overcharge">
+							<td>Overcharge</td>
+							<td>Make an overcharged Plasma Pistol attack against the closest explorer that is in range of and visible to
+								Obsidius Mallex.</td>
+						</tr>
+						<tr data-key="#Tunnel">
+							<td>Tunnel</td>
+							<td>Remove the Borewyrm Infestation from the board and place it in the same hex as the discovery marker that
+								is furthest from any explorers or other hostiles(other than the Ambull or any other Borewyrm Infestations). If
+								this is not possible, treat this result as a Sneak result instead.</td>
+						</tr>
+						<tr data-key="#Consume">
+							<td>Consume</td>
+							<td>Double this hostile's Move value when they take this action. Move the Borewyrm Infestation towards the
+								nearest discovery marker. If it finishes this move in a hex with a discovery marker, remove that discovery
+								marker, then remove any wound counters next to this Borewyrm Infestation. If there are no discovery markers or
+								the only discovery markers on the board are showing the &lt;?&gt; side, treat this result as a Sneak result
+								instead.</td>
+						</tr>
+						<tr data-key="#Swipe">
+							<td>Swipe</td>
+							<td>Make an attack against each explorer that is adjacent and visible to the Ambull.</td>
+						</tr>
+						<tr data-key="#Execute_the_weak">
+							<td>Execute the weak</td>
+							<td>If there are no Traitor Guardsman hostiles visible to the Traitor Commissar, treat this result as Charge
+								instead. Otherwise, the nearest Traitor Guardsman that is visible to the Traitor Commissar is slain. Place the
+								motivation marker in the same hex as the slain Traitor Guardsman before it is removed. Add 2 to behaviour rolls
+								(to a maximum of 20) for all Traitor Guardsman hostiles within 6 hexes of the motivation marker. Remove the
+								motivation marker at the start of the Traitor Commissar's next activation.</td>
+						</tr>
+						<tr data-key="#Guard">
+							<td>Guard</td>
+							<td>Move the Chaos Ogryn towards the Traitor Commissar.</td>
+						</tr>
+						<tr data-key="#Crush">
+							<td>Crush</td>
+							<td>Move towards the closest explorer. Then attack an explorer that is adjacent and visible to this hostile.
+								If there are no explorers adjacent and visible to this hostile, move towards the closest explorer a second time.
+								If the Chaos Ogryn ends either of these moves adjacent to any explorers, those explorers are stunned.</td>
+						</tr>
+						<tr data-key="#Overwhelm">
+							<td>Overwhelm</td>
+							<td>Move towards the closest explorer that has another Cultist hostile adjacent to it. Then attack an
+								explorer that is adjacent and visible to this hostile; if there are no explorers adjacent and visible to this
+								hostile, move towards the cloest explorer that has another Cultist hostile adjacent to it a second time. If
+								there are no explorers with another Cultist hostile adjacent to them, treat this result as Charge instead.</td>
+						</tr>
+						<tr data-key="#Full-auto">
+							<td>Full-auto</td>
+							<td>Make an attack roll against each explorer adjacent and visible to this hostile. If only one explorer is
+								adjacent, treat this as Onslaught instead.</td>
+						</tr>
+						<tr data-key="#All_Shall_Burn">
+							<td>All Shall Burn</td>
+							<td>Make a <span class="specialSquareDiceD6"></span> attack roll against each explorer and hostile within two
+								hexes of and visible to the Cultist Firebrand.
+							</td>
+						</tr>
+						<tr data-key="#Firestorm">
+							<td>Firestorm</td>
+							<td>Place a firestorm marker beside the Cultist Firebrand. While a firestorm marker is beside this Cultist
+								Firebrand, each time an explorer moves into a hex that is within 2 hexes of them, the Cultist Firebrand makes a
+								Hellfire Torch attack against that explorer. After that attack is resolved, that explorer can continue to move.
+								Remove the firestorm marker the next time the Cultist Firebrand is activated.</td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
