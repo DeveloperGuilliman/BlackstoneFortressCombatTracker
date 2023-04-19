@@ -3,12 +3,13 @@
  */
 
 var trackingStatus = {
-		selected: {
-			explorers: [],
-			hostiles:  [[], [], [], []]
-		},
-		phase : "creating",
-		animation: false
+	selected: {
+		explorers: [],
+		hostiles: [[], [], [], []]
+	},
+	selectingHostileGroup: null,
+	phase: "creating",
+	animation: false
 }
 
 var explorers = {
@@ -257,27 +258,27 @@ var menus = {
 	},
 	
 	select_hostiles: {
-		selectedHostiles : null,
 		divId : "select_hostiles",
 		init: function() {
 			getElementById("saveHostilesButton").addEventListener("click", function() {
-				trackingStatus.selected.hostiles[selectedHostiles].length = 0;
-				var selectButtonHtml = getElementById("createHostiles" + (selectedHostiles + 1) +"Button").innerHTML.replaceAll("☒","☐");
+				var hostilesGroup = trackingStatus.selectingHostileGroup;
+				trackingStatus.selected.hostiles[hostilesGroup].length = 0;
+				var selectButtonHtml = getElementById("createHostiles" + (hostilesGroup + 1) +"Button").innerHTML.replaceAll("☒","☐");
 				document.querySelectorAll("#select_hostiles_cards>div>div:not(.card-deactivated)").forEach(function(elem) {
-					trackingStatus.selected.hostiles[selectedHostiles].push(elem.getAttribute("data-reference"));
+					trackingStatus.selected.hostiles[hostilesGroup].push(elem.getAttribute("data-reference"));
 					selectButtonHtml = selectButtonHtml.replace("☐","☒");
 				});
-				trackingStatus.selected.hostiles[selectedHostiles].push(selectedHostiles);
-				getElementById("createHostiles" + (selectedHostiles + 1) +"Button").innerHTML = selectButtonHtml;
+				trackingStatus.selected.hostiles[hostilesGroup].push(hostilesGroup);
+				getElementById("createHostiles" + (hostilesGroup + 1) +"Button").innerHTML = selectButtonHtml;
 				menuStack.previous();
 			});
 		},
 		open: function(value) {
-			selectedHostiles = value;
-			createSelectableCards("hostiles-cards", "select_hostiles_cards", "saveHostilesButton", trackingStatus.selected.hostiles[selectedHostiles], value == 0 ? 1: 0, 2);
+			trackingStatus.selectingHostileGroup = value;
+			createSelectableCards("hostiles-cards", "select_hostiles_cards", "saveHostilesButton", trackingStatus.selected.hostiles[value], value == 0 ? 1: 0, 3);
 		},
 		close: function() {
-			selectedHostiles = null;
+			trackingStatus.selectingHostileGroup = null;
 			getElementById("select_hostiles_cards").innerHTML = "";
 		}
 	},
@@ -297,7 +298,7 @@ var menus = {
 				
 				if (trackingStatus.phase == "order") {
 					trackingStatus.phase = "combat";
-					deactivateOrder();
+					disableOrder();
 					activateCombatCard(actualCard);
 				} else if (trackingStatus.phase == "combat") {
 					if (actualCard) {
@@ -363,7 +364,7 @@ var menus = {
 					if (actualCard) {
 						activateCombatCard(actualCard, true);
 					} else {
-						activateOrder();
+						enableOrder();
 						getElementById("backTrackingButton").setAttribute("disabled", "disabled");
 						trackingStatus.phase = "order";
 					}
@@ -388,7 +389,8 @@ var menus = {
 		},
 		open: function(value) {
 			trackingStatus.phase = "order";
-			activateOrderAndRerollCards();
+			clearRollTableSections();
+			enableOrderAndRerollCards();
 		},
 		close: function() {}
 	
@@ -422,6 +424,7 @@ function getActualCard() {
 		return actualCards[0];
 	}
 	return null;
+	
 }
 
 function switchToNextCardAndGet() {
@@ -464,18 +467,27 @@ function activateCombatCard(card, goingBack) {
 		document.querySelectorAll("#" + slotId + " .card-orderable").forEach(function(elem) {
 			hideElement(elem);
 		});
+		var slotTotalCards = document.querySelectorAll("#" + slotId + " .playable-card").length;
+		var slotDoneCards = document.querySelectorAll("#" + slotId + " .playable-card.card-done").length;
 		if (goingBack) {
-			document.querySelectorAll("#" + slotId + " .extra-card").forEach(function(elem) {
+//			document.querySelectorAll("#" + slotId + " .extra-card-" + (slotDoneCards + 1)).forEach(function(elem) {
+//				elem.classList.remove("card-done");
+//				elem.classList.add("card-deactivated");
+//			});
+			document.querySelectorAll("#" + slotId + " .extra-card-" + (slotTotalCards - slotDoneCards - 1)).forEach(function(elem) {
 				elem.classList.remove("card-done");
 				elem.classList.add("card-deactivated");
 			});
 		} else {
-			document.querySelectorAll("#" + slotId + " .extra-card").forEach(function(elem) {
+//			document.querySelectorAll("#" + slotId + " .extra-card-" + slotDoneCards).forEach(function(elem) {
+//				elem.classList.remove("card-deactivated");
+//				elem.classList.add("card-done");
+//			});
+			document.querySelectorAll("#" + slotId + " .extra-card-" + (slotTotalCards - slotDoneCards)).forEach(function(elem) {
 				elem.classList.remove("card-deactivated");
 				elem.classList.add("card-done");
 			});
-		}
-		
+		}		
 		showElement(card.parentNode);
 	}
 	if (card.classList.contains("explorer-card")) {
@@ -490,20 +502,22 @@ function activateCombatCard(card, goingBack) {
 	
 }
 
-function deactivateOrder() {
+function disableOrder() {
 	
 	document.querySelectorAll("#tracking_order .card-slot").forEach(function(elem) {
 		elem.setAttribute("draggable", false);
 	});
 	document.querySelectorAll("#tracking_order .card").forEach(function(elem) {
 		elem.classList.add("card-deactivated");
-		elem.classList.remove("card-selected");		
+		elem.classList.remove("card-selected");
+		elem.classList.remove("grow-anim");
+		elem.classList.remove("shrink-anim");
 	});
 	getElementById("backTrackingButton").removeAttribute("disabled");	
 	
 }
 
-function activateOrder() {
+function enableOrder() {
 	
 	hideElement(getElementById("reinforcementsButton").parentNode);
 	hideElement(getElementById("actionButton").parentNode);
@@ -515,32 +529,35 @@ function activateOrder() {
 	document.querySelectorAll("#tracking_order .card-slot").forEach(function(elem) {
 		elem.setAttribute("draggable", true);
 	});
+	
 }
 
-function activateOrderAndRerollCards() {
+function enableOrderAndRerollCards() {
 	
 	var cards = generateRandomCardOrder(trackingStatus.selected.explorers, trackingStatus.selected.hostiles);
 	createOrderableCards(cards);
-	activateOrder();
+	enableOrder();
+	
 }
 
 function collectAndRerollCards() {
+	
 	trackingStatus.animation = true;
 	getElementById("backTrackingButton").setAttribute("disabled", "disabled");
 
 
 	for (let i = 1; i <= 8; i++) {
-		elem = getElementById("card-slot-" + i);
-		debugger;
+		elem = document.getElementById("card-slot-" + i);
 		if (elem) {
 			elem.classList.add("collect-card-anim-" + i);			
 		}
 	}
 	setTimeout(function() {
 		trackingStatus.animation = false;
-		activateOrderAndRerollCards();
+		enableOrderAndRerollCards();
 		trackingStatus.phase = "order";
 	}, 550);
+	
 }
 
 
@@ -555,9 +572,11 @@ function showEvent() {
 }
 
 function clearRollTableSections() {
+	
 	clearPopOvers();
 	getElementById("table_result_row").innerHTML = "";
 	getElementById("dice_roll_value").innerHTML = "";
+	
 }
 
 function generateRandomCardOrder(e, h) {
@@ -583,18 +602,23 @@ function generateRandomCardOrder(e, h) {
 	}
 	shuffle(array);
 	return array;
+	
 }
 
 function rollDice(resultId, callback) {
 	
 	trackingStatus.animation = true;
-	
-	for (let i = 0; i < 400; i+=20) {
+
+	// Between 16 and 22 rolls for the animation
+	var rolls = 16 + Math.floor(Math.random() * 7);
+	let i = 0
+	for (; i < rolls; i++) {
 		setTimeout(function() {
 			var diceRoll = getBlackstoneDiceRoll();
 			getElementById(resultId).innerHTML = diceRoll;
-		}, i);
+		}, i * 20);
 	}
+	// On more last roll to use as result
 	setTimeout(function() {
 		var diceRoll = getBlackstoneDiceRoll();
 		getElementById(resultId).innerHTML = diceRoll;
@@ -602,10 +626,9 @@ function rollDice(resultId, callback) {
 			callback(diceRoll);
 		}
 		trackingStatus.animation = false;
-	}, 400);
+	}, i * 20);
 
 }
-
 
 function putReinforcementsTable(diceRoll) {
 	
@@ -673,19 +696,17 @@ function putTable(idFrom, idTo, diceRoll) {
 			}
 			new bootstrap.Popover(elem); 
 		}
-		
 	});
 	
 }
 
 function clearPopOvers() {
+	
 	document.querySelectorAll(".popover").forEach(function(elem) {
 		elem.remove();
 	});
 	
 }
-
-
 
 function clickCard(ev) {
 	
@@ -695,14 +716,26 @@ function clickCard(ev) {
 	var elemA = findCardParent(ev.target);
 	if (elemA.classList.contains("card-selected")) {
 		elemA.classList.remove("card-selected");
+		elemA.classList.remove("shrink-anim");
+		elemA.offsetHeight;
+		elemA.classList.add("grow-anim");
 	} else {
 		var selected = document.querySelectorAll(".card-selected");
 		if (selected.length > 0) {
 			var elemB = selected[0];
 			swapElements(elemA, elemB);
 			elemB.classList.remove("card-selected");
+			elemA.classList.remove("shrink-anim");
+			elemB.classList.remove("shrink-anim");
+			elemA.offsetHeight;
+			elemA.classList.add("grow-anim");
+			elemB.classList.add("grow-anim");
+
 		} else {
 			elemA.classList.add("card-selected");
+			elemA.classList.remove("grow-anim");
+			elemA.offsetHeight;
+			elemA.classList.add("shrink-anim");
 		}
 	}
 	
@@ -747,7 +780,7 @@ function createSelectableCards(idFrom, idTo, idButton, selected, minSelected, ma
 	
 	var cardsHtml = "";
 	
-	document.querySelectorAll("#"+idFrom+">div").forEach(function(elem) {
+	document.querySelectorAll("#" + idFrom + ">div").forEach(function(elem) {
 		cardsHtml += "<div class=\"col mb-2\">" + elem.innerHTML + "</div>";
 	});
 	
@@ -762,36 +795,48 @@ function createSelectableCards(idFrom, idTo, idButton, selected, minSelected, ma
 		}
 		
 		elem.addEventListener("click", function(evt) {
-			var selected = document.querySelectorAll("#" + idTo + ">div>div:not(.card-deactivated)").length;
-			if (this.classList.contains("card-deactivated")) {
-				if (selected < maxSelected) {
-					this.classList.remove("card-deactivated");
-					this.classList.remove("select-anim");
-					this.classList.remove("non-selected-anim");
-					this.offsetHeight;
-					this.classList.add("select-anim");					
-					selected++;
-				} else {
-					this.classList.remove("non-selected-anim");
-					this.offsetHeight;
-					this.classList.add("non-selected-anim");	
-					
-				}
-			} else {
-				this.classList.add("card-deactivated");
-				this.classList.remove("select-anim");
-				this.classList.remove("non-selected-anim");
-				this.offsetHeight;
-				this.classList.add("select-anim");	
-				selected--;
-			}
-			if (selected >= minSelected && selected <= maxSelected) {
-				getElementById(idButton).removeAttribute("disabled");
-			} else {
-				getElementById(idButton).setAttribute("disabled", "disabled");
-			}
+			clickSelectableCard(this, idTo, idButton, minSelected, maxSelected);
 		});
 	});
+	if (selected.length >= minSelected && selected.length <= maxSelected) {
+		getElementById(idButton).removeAttribute("disabled");
+	} else {
+		getElementById(idButton).setAttribute("disabled", "disabled");
+	}
+	
+}
+
+function clickSelectableCard(card, idTo, idButton, minSelected, maxSelected) {
+
+	var selected = document.querySelectorAll("#" + idTo + ">div>div:not(.card-deactivated)").length;
+	
+	if (card.classList.contains("card-deactivated")) {
+		if (selected < maxSelected) {
+			card.classList.remove("card-deactivated");
+			card.classList.remove("grow-anim");
+			card.classList.remove("shake-anim");
+			card.offsetHeight;
+			card.classList.add("grow-anim");
+			selected++;
+		} else {
+			card.classList.remove("shake-anim");
+			card.offsetHeight;
+			card.classList.add("shake-anim");
+
+		}
+	} else {
+		card.classList.add("card-deactivated");
+		card.classList.remove("grow-anim");
+		card.classList.remove("shake-anim");
+		card.offsetHeight;
+		card.classList.add("grow-anim");
+		selected--;
+	}
+	if (selected >= minSelected && selected <= maxSelected) {
+		getElementById(idButton).removeAttribute("disabled");
+	} else {
+		getElementById(idButton).setAttribute("disabled", "disabled");
+	}
 	
 }
 
@@ -806,13 +851,20 @@ function createOrderableCards(cards) {
 		cardsHtml += "<div class=\"draw-card-anim-" + index + " card-slot card-slot-populated-" + populated + " gx-1\" id=\"card-slot-" + index + "\"";
 		cardsHtml += " onClick=\"clickCard(event)\" ondragstart=\"dragCard(event)\" ondrop=\"dropCard(event)\" ondragover=\"overDropCard(event)\" ondragleave=\"leaveDropCard(event)\">";
 		if (unit instanceof Array) {
-			if (unit.length > 2) {
-				cardsHtml += createOrderableCard(unit[0].card_id, true).replace("<span class=\"card-group-indicator\">", "<span class=\"card-group-indicator\">" + (unit[2] + 1));
-				cardsHtml += createOrderableCard(unit[1].card_id, false).replace("<span class=\"card-group-indicator\">", "<span class=\"card-group-indicator\">" +  (unit[2] + 1));
-				cardsHtml += "<div class=\"card hostile-card extra-card rounded-3 shadow-sm\"></div>";
-			} else {
-				cardsHtml += createOrderableCard(unit[0].card_id, true).replace("<span class=\"card-group-indicator\">", "<span class=\"card-group-indicator\">" + (unit[1] + 1));
+			let indexGroup = unit.length - 1;
+			cardsHtml += createOrderableCard(unit[0].card_id, true).replace("<span class=\"card-group-indicator\">", "<span class=\"card-group-indicator\">" + (unit[indexGroup] + 1));
+
+			for (let i = 1; i < indexGroup; i++) {
+				cardsHtml += createOrderableCard(unit[i].card_id, false).replace("<span class=\"card-group-indicator\">", "<span class=\"card-group-indicator\">" + (unit[indexGroup] + 1));
 			}
+			cardsHtml += "<div class=\"extra-cards\">";
+
+			for (let i = indexGroup - 1; i > 0; i--) {
+				cardsHtml += "<div class=\"card hostile-card extra-card-" + i +" rounded-3 shadow-sm\"></div>";
+			}
+			cardsHtml += "</div>";
+
+			
 		} else {
 			cardsHtml += createOrderableCard(unit.card_id, true);
 		}
@@ -828,6 +880,7 @@ function createOrderableCards(cards) {
 			}
 		}
 	}, 550);
+	
 }
 
 
@@ -842,6 +895,7 @@ function createOrderableCard(card, visible) {
 	cardHtml += getElementById(card).innerHTML;
 	cardHtml += "</div>";
 	return cardHtml;
+	
 }
 
 
@@ -885,9 +939,33 @@ getElementById("menu_new_game").addEventListener('click', function(event) {
 
 });
 
+getElementById("menu_fullscreen").addEventListener('click', function(event) {
+	
+	event.preventDefault();
+	if (document.fullscreenElement != null) {
+		document.exitFullscreen();
+	} else {
+		var docElm = document.documentElement;
+		if (docElm.requestFullscreen) {
+			docElm.requestFullscreen();
+		} else if (docElm.msRequestFullscreen) {
+			docElm.msRequestFullscreen();
+		} else if (docElm.mozRequestFullScreen) {
+			docElm.mozRequestFullScreen();
+		} else if (docElm.webkitRequestFullScreen) {
+			docElm.webkitRequestFullScreen();
+		}
+	}
+
+});
+
+
+
+
 Object.values(menus).forEach(function (menu) {
 	if (menu.init) {
 		menu.init();
 	}
 });
-menuStack.next(menus.create_game)
+
+menuStack.next(menus.create_game);

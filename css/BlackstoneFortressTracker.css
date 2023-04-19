@@ -4,13 +4,73 @@ body {
 	user-select: none;
 }
 
-.extra-card {
-  left: 2px;
-  bottom: calc(100% - 10px);
-  z-index: 3;
-  position: relative;
-  width: 100%;
-  height: 100%;
+button.btn {
+	border-width: 2px;
+	color:white;
+	text-shadow: black 0px 0px 3px;
+}
+
+button.btn:disabled {
+	color:black;
+}
+
+button.btn:active {
+	color:  white !important;
+	border-color: white;
+}
+
+button.btn:active:hover {
+	border-color: black;
+}
+
+button.btn.btn-info {
+	color: white;
+	background-color: #98918D;
+	border-color: #20171A;
+}
+
+button.btn.btn-info:hover {
+	background-color: #C8C1BD;
+}
+
+button.btn.btn-primary {
+	background-color: #56524F;
+	border-color: black;
+}
+
+button.btn.btn-primary:hover {
+	background-color: #86827F;
+}
+
+button.btn.btn-secondary {
+	background-color: #C6C6C6;
+	border-color: #736B6C;
+}
+
+button.btn.btn-secondary:hover {
+	background-color: lightgrey;
+}
+
+.extra-cards {
+	bottom: 100%;
+	z-index: 3;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.extra-card-1 {
+	position: absolute;
+	bottom: -8px;
+	width: 100%;
+	height: 100%;
+}
+
+.extra-card-2 {
+	position: absolute;
+	bottom: -16px;
+	width: 100%;
+	height: 100%;
 }
 
 .card-orderable .card.playable-card h5 {
@@ -76,6 +136,10 @@ body {
 .card {
 	border-width: 2px;
   --bs-card-spacer-y: 0.5rem;
+}
+
+.card:active {
+	border-color: black;
 }
 
 .card-skull  {
@@ -152,20 +216,20 @@ body {
 
 .explorer-card {
 	background-color: rgba(240, 240, 255, 1);
-	border-color: rgba(224, 224, 255, 0.5);
+	border-color: rgba(128, 128, 255, 0.5);
 }
 
 .hostile-card {
 	background-color: rgba(255, 240, 240 , 1);
-	border-color: rgba(255, 240, 240, 0.5);
+	border-color: rgba(255, 128, 128, 0.5);
 }
 
 .card-over .card.explorer-card, .card.explorer-card.card-actual {
-	border-color: rgba(128, 128, 255, 0.875);
+	border-color: rgba(128, 128, 255, 1);
 }
 
 .card-over .card.hostile-card, .card.hostile-card.card-actual {
-	border-color: rgba(255, 128, 128, 0.875);
+	border-color: rgba(255, 128, 128, 1);
 }
 
 #dice_roll {
@@ -223,7 +287,16 @@ nav.navbar a.navbar-brand, nav.navbar a.navbar-brand:hover {
 
 .navbar button.navbar-toggler {
 	margin-top: 4px;
-	color: white;
+	color: #C8C1BD;
+	border-color: #C8C1BD;
+}
+
+.navbar-toggler-icon {
+	filter: invert();
+}
+
+button.navbar-toggler:focus {
+	  box-shadow: none;
 }
 
 span.specialSquareDiceD6:before {
@@ -279,11 +352,17 @@ div.topBackground {
 	background-position: bottom;
 }
 
-.select-anim {
+.grow-anim {
 	animation: grow 0.2s;
 }
 
-.non-selected-anim {
+.shrink-anim {
+	animation: grow 0.2s;
+	animation-direction: reverse;
+	animation-fill-mode: forwards
+}
+
+.shake-anim {
 	animation: shake 0.25s linear;
 }
 

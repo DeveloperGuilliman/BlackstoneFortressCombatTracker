@@ -23,6 +23,7 @@
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-lg-0">
 						<li id="menu_new_game" class="nav-item"><a class="nav-link active" aria-current="page" href="#">New game</a></li>
+						<li id="menu_fullscreen" class="nav-item"><a class="nav-link active" aria-current="page" href="#">Full Screen</a></li>
 						<!--
 						<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
 						<li class="nav-item dropdown"><a
@@ -46,83 +47,84 @@
 
 	<div id="page_main" class="flex-fill d-flex flex-column">
 		<div class="flex-fill">
-		<div id="create_game" class="container" style="display: none !important;">
+			<div id="create_game" class="container" style="display: none !important;">
 
-			<div class="d-grid gap-2 mt-4">
-				<button id="createExplorersButton" class="btn btn-info" type="button">Select explorers (2-4)
-					&#9744;&#9744;&#9744;&#9744;</button>
-				<button id="createHostiles1Button" class="btn btn-info" type="button">Select group 1 hostiles (1-2)
-					&#9744;&#9744;</button>
-				<button id="createHostiles2Button" class="btn btn-info" type="button">Select group 2 hostiles (0-2)
-					&#9744;&#9744;</button>
-				<button id="createHostiles3Button" class="btn btn-info" type="button">Select group 3 hostiles (0-2)
-					&#9744;&#9744;</button>
-				<button id="createHostiles4Button" class="btn btn-info" type="button">Select group 4 hostiles (0-2)
-					&#9744;&#9744;</button>
-				<button id="startGame" class="btn btn-primary" type="button" disabled="disabled">Start game</button>
+				<div class="d-grid gap-2 mt-4">
+					<button id="createExplorersButton" class="btn btn-info" type="button">Select explorers (2-4)
+						&#9744;&#9744;&#9744;&#9744;</button>
+					<button id="createHostiles1Button" class="btn btn-info" type="button">Select group 1 hostiles (1-3)
+						&#9744;&#9744;&#9744;</button>
+					<button id="createHostiles2Button" class="btn btn-info" type="button">Select group 2 hostiles (0-3)
+						&#9744;&#9744;&#9744;</button>
+					<button id="createHostiles3Button" class="btn btn-info" type="button">Select group 3 hostiles (0-3)
+						&#9744;&#9744;&#9744;</button>
+					<button id="createHostiles4Button" class="btn btn-info" type="button">Select group 4 hostiles (0-3)
+						&#9744;&#9744;&#9744;</button>
+					<button id="startGame" class="btn btn-primary" type="button" disabled="disabled">Start game</button>
+				</div>
+
 			</div>
 
-		</div>
+			<div id="select_explorers" class="container mt-2" style="display: none !important;">
 
-		<div id="select_explorers" class="container mt-2" style="display: none !important;">
+				<div id="select_explorers_cards" class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 mb-2 text-center"></div>
 
-			<div id="select_explorers_cards" class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 mb-2 text-center"></div>
+				<div class="d-grid gap-2 mb-2">
+					<button class="btn btn-secondary goBackButton" type="button">Cancel</button>
+					<button id="saveExplorersButton" class="btn btn-primary" type="button" disabled="disabled">Save</button>
+				</div>
 
-			<div class="d-grid gap-2 mb-2">
-				<button class="btn btn-secondary goBackButton" type="button">Cancel</button>
-				<button id="saveExplorersButton" class="btn btn-primary" type="button" disabled="disabled">Save</button>
 			</div>
 
-		</div>
+			<div id="select_hostiles" class="container mt-2" style="display: none !important;">
 
-		<div id="select_hostiles" class="container mt-2" style="display: none !important;">
+				<div id="select_hostiles_cards" class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 mb-2 text-center"></div>
 
-			<div id="select_hostiles_cards" class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 mb-2 text-center"></div>
-
-			<div class="d-grid gap-2 mb-2">
-				<button class="btn btn-secondary goBackButton" type="button">Cancel</button>
-				<button id="saveHostilesButton" class="btn btn-primary" type="button" disabled="disabled">Save</button>
-			</div>
-		</div>
-
-		<div id="tracking" class="d-flex flex-column flex-fill h-100" style="display: none !important;">
-
-			<div class="container-fluid container-lg mb-1">
-				<div id="tracking_order" class="row mt-1 mb-2"></div>
-			</div>
-
-			<div class="container-fluid container-md mb-3">
-				<div class="row mt-2">
-					<div id="dice_roll" class="col w-auto mt-0 gx-1">
-						<img src="img/d20.svg">
-						<div id="dice_roll_value"></div>
-					</div>
-					<div id="table_result_row" class="col w-100 mt-2"></div>
+				<div class="d-grid gap-2 mb-2">
+					<button class="btn btn-secondary goBackButton" type="button">Cancel</button>
+					<button id="saveHostilesButton" class="btn btn-primary" type="button" disabled="disabled">Save</button>
 				</div>
 			</div>
 
-			<div class="flex-fill"></div>
+			<div id="tracking" class="d-flex flex-column flex-fill h-100" style="display: none !important;">
 
-			<div id="tracking_buttons" class="container-fluid container-md ">
-				<div id="tracking_common_buttons" class="row row-cols-2 row-cols-sm-4 mb-2 g-1 justify-content-between">
-					<div class="col order-2 order-sm-0">
-						<button id="backTrackingButton" class="btn btn-primary w-100 px-0" type="button">Back</button>
+				<div class="container-fluid container-lg mb-1">
+					<div id="tracking_order" class="row mt-1 mb-2"></div>
+				</div>
+
+				<div class="container-fluid container-md mb-3">
+					<div class="row mt-2">
+						<div id="dice_roll" class="col w-auto mt-0 gx-1">
+							<img src="img/d20.svg">
+							<div id="dice_roll_value"></div>
+						</div>
+						<div id="table_result_row" class="col w-100 mt-2"></div>
 					</div>
-					<div class="col order-0 order-sm-1">
-						<button id="reinforcementsButton" class="btn btn-info w-100 px-0" type="button">Reinforcement&nbsp;Roll</button>
-					</div>
-					<div class="col order-1 order-sm-2">
-						<button id="actionButton" class="btn btn-info w-100" type="button">Action&nbsp;Roll</button>
-					</div>
-					<div class="col col-12 order-1 order-sm-2">
-						<button id="inspirationButton" class="btn btn-info w-100 px-0" type="button">Inspiration&nbsp;Roll</button>
-					</div>
-					<div class="col order-3">
-						<button id="nextTrackingButton" class="btn btn-primary w-100 px-0" type="button">Next</button>
+				</div>
+
+				<div class="flex-fill"></div>
+
+				<div id="tracking_buttons" class="container-fluid container-md ">
+					<div id="tracking_common_buttons" class="row row-cols-2 row-cols-sm-4 mb-2 g-1 justify-content-between">
+						<div class="col order-2 order-sm-0">
+							<button id="backTrackingButton" class="btn btn-primary w-100 px-0" type="button" disabled="disabled">Back</button>
+						</div>
+						<div class="col order-0 order-sm-1">
+							<button id="reinforcementsButton" class="btn btn-info w-100 px-0" type="button">Reinforcement&nbsp;Roll</button>
+						</div>
+						<div class="col order-1 order-sm-2">
+							<button id="actionButton" class="btn btn-info w-100" type="button">Action&nbsp;Roll</button>
+						</div>
+						<div class="col col-12 order-1 order-sm-2">
+							<button id="inspirationButton" class="btn btn-info w-100 px-0" type="button">Inspiration&nbsp;Roll</button>
+						</div>
+						<div class="col order-3">
+							<button id="nextTrackingButton" class="btn btn-primary w-100 px-0" type="button">Next</button>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div></div>
+		</div>
 
 	</div>
 	<div id="hidden-data" style="display: none !important;">
@@ -1934,8 +1936,8 @@
 						</tr>
 						<tr data-key="#All_Shall_Burn">
 							<td>All Shall Burn</td>
-							<td>Make a <span class="specialSquareDiceD6"></span> attack roll against each explorer and hostile within two
-								hexes of and visible to the Cultist Firebrand.
+							<td>Make a <span class="specialSquareDiceD6"></span> attack roll against each explorer and hostile within
+								two hexes of and visible to the Cultist Firebrand.
 							</td>
 						</tr>
 						<tr data-key="#Firestorm">
