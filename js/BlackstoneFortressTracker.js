@@ -12,7 +12,44 @@ var trackingStatus = {
 	animation: false
 }
 
-var explorers = {
+var explorers = (function() {
+	var map = {};
+	document.querySelectorAll("#explorers-cards>div").forEach(function(elem) {
+		var cardId = elem.getAttribute("id");
+		var card = document.querySelectorAll("#" + cardId + ">div");
+		if (card.length > 0) {
+			var dataReference = card[0].getAttribute("data-reference");
+			if (dataReference) {
+				map[dataReference] = { card_id: cardId };
+			}
+		}
+	});
+	return map;
+})();
+
+var hostiles = (function() {
+	var map = {};
+	document.querySelectorAll("#hostiles-cards>div").forEach(function(elem) {
+		debugger;
+		var cardId = elem.getAttribute("id");
+		var card = document.querySelectorAll("#" + cardId + ">div");
+		if (card.length > 0) {
+			var dataReference = card[0].getAttribute("data-reference");
+			var dataActionsReference = card[0].getAttribute("data-actions-reference");
+			var dataReinforcementsReference = card[0].getAttribute("data-reinforcements-reference");
+			if (dataReference && dataActionsReference && dataReinforcementsReference) {
+				map[dataReference] = {
+					card_id: cardId,
+					actions_id : dataActionsReference,
+					reinforcements_id: dataReinforcementsReference					
+				};
+			}
+		}
+	});
+	return map;
+})();
+
+var explorersOld = {
 		janus_draik: {
 			card_id: "janus_draik-card"
 		},
@@ -52,7 +89,7 @@ var explorers = {
 }
 
 
-var hostiles = {
+var hostilesOld = {
 		spindle_drones: {
 			card_id: "spindle_drones-card",
 			actions_id: "spindle_drones-actions",
